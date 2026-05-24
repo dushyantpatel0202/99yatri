@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>HiFi Yatri — Bus Finder & Travel Packages</title>
+	<link rel="stylesheet" href="style.css" />
+	<!-- Font Awesome for Yatra icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<!-- Google Fonts for Yatra detail modal -->
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- ══ ALARM MODAL ══ -->
+	<div class="alarm-modal" id="alarmModal">
+		<div class="alarm-content">
+			<div class="alarm-icon">🚨</div>
+			<div class="alarm-title" id="alarmTitle">Station Alert!</div>
+			<div class="alarm-station" id="alarmStation"></div>
+			<div class="alarm-details" id="alarmDetails"></div>
+			<div class="alarm-bus-info" id="alarmBusInfo"></div>
+			<div class="alarm-btn-group">
+				<button class="alarm-btn alarm-btn-dismiss" id="alarmDismissBtn">Dismiss</button>
+				<button class="alarm-btn alarm-btn-track" id="alarmTrackBtn">Track Bus</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- ══ TRACKER OVERLAY ══ -->
+	<div class="tracker-overlay" id="trackerOverlay">
+		<div class="tracker-overlay-inner">
+			<button class="tracker-back-btn" id="trackerCloseBtn">← Back</button>
+			<div class="tracker-overlay-header" id="trackerHeader"></div>
+			<div class="tracker-simulated-warning" id="trackerWarning">⚠️ This bus tracking is a simulated feature based on schedule timings. It may not reflect the bus's real-time location. <strong>Real-time tracking will be available soon.</strong></div>
+			<div class="tracker-status-box" id="trackerStatus"></div>
+			<div class="tracker-alarm-summary" id="trackerAlarmSummary"></div>
+			<div class="v-timeline" id="trackerTimeline"></div>
+		</div>
+	</div>
+
+	<!-- ══ ROUTE OVERLAY ══ -->
+	<div class="tracker-overlay" id="routeOverlay">
+		<div class="tracker-overlay-inner">
+			<button class="tracker-back-btn" id="routeCloseBtn">← Back</button>
+			<div class="tracker-overlay-header" id="routeHeader"></div>
+			<div class="tracker-status-box" id="routeStatus"></div>
+			<div class="route-line-panel" id="routeTimeline"></div>
+		</div>
+	</div>
+
+	<!-- ══ YATRA OVERLAY (Full Dynamic App) ══ -->
+	<div class="tracker-overlay yatra-overlay-dark" id="yatraOverlay">
+		<div class="yatra-app-inner">
+			<div class="yatra-back-bar">
+				<button class="tracker-back-btn yatra-back-btn" id="yatraCloseBtn">← Back</button>
+			</div>
+			<!-- Listing Page -->
+			<div class="app-container">
+				<header class="app-header">
+					<h1><i class="fas fa-map-marked-alt"></i> HiFi Yatri</h1>
+					<p>Handpicked travel packages from our trusted partners</p>
+				</header>
+				<nav class="category-filter" id="categoryFilter" aria-label="Filter by category"></nav>
+				<main class="packages-grid" id="packagesGrid">
+					<div class="loading">Loading packages…</div>
+				</main>
+			</div>
+		</div>
+	</div>
+
+	<!-- ══ ADMIN OVERLAY ══ -->
+	<div class="tracker-overlay" id="adminOverlay">
+		<div class="tracker-overlay-inner">
+			<button class="tracker-back-btn" id="adminCloseBtn">← Back</button>
+			<div class="tracker-overlay-header" id="adminHeader"></div>
+			<div class="admin-content" id="adminContent"></div>
+		</div>
+	</div>
+
+	<!-- ══ MAIN BUS FINDER ══ -->
+	<main class="container" style="width: 100%; max-width: 100%; margin: 0 auto; padding: 0 10px;">
+		<section class="hero">
+			<h1 id="heroTitle">HiFi Yatri — Bus Finder & Travel</h1>
+			<p id="heroSubtitle">
+				Choose your boarding station and destination station to see all buses,
+				departure time, arrival time, and route details.
+			</p>
+			<div class="hero-actions">
+				<button id="busListBtn" class="bus-list-btn" type="button">Bus List</button>
+				<button id="yatraBtn" class="yatra-btn" type="button">🧳 Yatra</button>
+				<div class="hero-tools">
+					<button id="themeToggleBtn" class="theme-toggle" type="button" aria-label="Switch theme">
+						<span class="theme-toggle-icon" id="themeToggleIcon">☀</span>
+					</button>
+					<div class="lang-switch">
+						<label for="languageSelect" id="languageLabel">Language</label>
+						<select id="languageSelect" aria-label="Select language">
+							<option value="en">English</option>
+							<option value="hi">Hindi</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="search-panel">
+			<div class="grid">
+				<div>
+					<label for="startStation" id="startLabel">Starting Station</label>
+					<input id="startStation" list="startStationList" placeholder="Type or select start station" autocomplete="off" style="width: 100%; box-sizing: border-box; margin: 0; display: block;"/>
+					<datalist id="startStationList"></datalist>
+				</div>
+				<div class="swap-col">
+					<button id="swapStationsBtn" class="swap-btn" type="button" title="Swap starting and destination stations"><span class="swap-icon">⇅</span></button>
+				</div>
+				<div>
+					<label for="endStation" id="endLabel">Destination Station</label>
+					<input id="endStation" list="endStationList" placeholder="Type or select destination station" autocomplete="off" />
+					<datalist id="endStationList"></datalist>
+				</div>
+				<div>
+					<button id="searchBtn" type="button">Find Buses</button>
+				</div>
+			</div>
+
+			<div class="meta" id="metaText">10 buses available from Raipur, Chhattisgarh.</div>
+			<div class="error" id="errorText"></div>
+			<div class="results" id="results"></div>
+		</section>
+	</main>
+
+	<!-- ══ YATRA DETAIL MODAL (above yatra overlay) ══ -->
+	<div id="detail-modal" role="dialog" aria-modal="true" aria-labelledby="d-hero-title">
+		<div class="dt">
+			<!-- Hero -->
+			<div id="d-hero">
+				<div class="hero-bg"></div>
+				<div class="stars-wrap" id="d-stars"></div>
+				<div class="hero-content">
+					<div class="badge-pill" id="d-badge"></div>
+					<h1 class="hero-title" id="d-hero-title"></h1>
+					<p class="hero-sub" id="d-hero-sub"></p>
+					<p class="hero-meta" id="d-hero-meta"></p>
+					<div class="hero-tags" id="d-hero-tags"></div>
+					<div class="scroll-hint" aria-hidden="true">&#x2193;</div>
+				</div>
+			</div>
+
+			<!-- Vibe -->
+			<div class="vibe-section-bg">
+				<section>
+					<div class="section-label" id="d-vibe-label"></div>
+					<h2 class="section-title" id="d-vibe-title"></h2>
+					<p class="vibe-desc" id="d-vibe-desc"></p>
+					<div class="vibe-grid" id="d-vibe-grid"></div>
+				</section>
+			</div>
+
+			<!-- Itinerary -->
+			<section>
+				<div class="section-label" id="d-itin-label"></div>
+				<h2 class="section-title" id="d-itin-title"></h2>
+				<div class="timeline" id="d-timeline"></div>
+			</section>
+
+			<!-- Transport -->
+			<section>
+				<div class="section-label" id="d-trans-label"></div>
+				<h2 class="section-title" id="d-trans-title"></h2>
+				<p class="trans-desc" id="d-trans-desc"></p>
+				<div class="rides-grid" id="d-rides-grid"></div>
+			</section>
+
+			<!-- Pricing -->
+			<div class="pricing-wrap">
+				<section id="d-pricing">
+					<div class="section-label" id="d-price-label"></div>
+					<h2 class="pricing-headline" id="d-price-headline"></h2>
+					<div class="price-card">
+						<div class="price-label">All-Inclusive Per Person</div>
+						<div class="price-amount" id="d-price-amount"></div>
+						<div class="price-per" id="d-price-per"></div>
+						<p class="price-pitch" id="d-price-pitch"></p>
+						<ul class="includes-grid" id="d-includes"></ul>
+					</div>
+				</section>
+			</div>
+
+			<!-- Squad / CTA -->
+			<section id="d-squad">
+				<div class="squad-badge" id="d-squad-badge"></div>
+				<h2 class="section-title" id="d-squad-title"></h2>
+				<p class="squad-desc" id="d-squad-desc"></p>
+				<div class="squad-stats" id="d-squad-stats"></div>
+				<div class="squad-faces" id="d-squad-faces"></div>
+				<p class="squad-hint">The greyed-out spots are yours. Claim them before someone else does.</p>
+				<a class="cta-btn" id="d-cta-btn" href="#">Book Now</a>
+				<p class="cta-sub" id="d-cta-sub"></p>
+			</section>
+
+			<!-- Footer -->
+			<footer>
+				<div class="sep"></div>
+				<p class="footer-tagline" id="d-footer-tagline"></p>
+				<div class="footer-meta" id="d-footer-chips"></div>
+			</footer>
+		</div>
+	</div>
+
+	<!-- Close button for Yatra Detail Modal -->
+	<button class="modal-close" id="modal-close-btn" title="Back to trips" aria-label="Close">&times;</button>
+
+	<script src="script.js" defer></script>
+</body>
+</html>

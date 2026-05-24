@@ -1,0 +1,1090 @@
+
+{
+  "title": "All Bus Routes from Bilaspur, Chhattisgarh",
+  "source_city": "Bilaspur",
+  "state": "Chhattisgarh",
+  "bus_stand": "ISBT Hi-Tech Bus Stand, Bilaspur",
+  "categories": [
+    {
+      "category_id": 1,
+      "category_name": "City Buses",
+      "description": "Intra-city routes within Bilaspur operated by Bilaspur City Bus Ltd.",
+      "operator": "Bilaspur City Bus Ltd.",
+      "routes": [
+        {
+          "route_number": 1,
+          "from": "Power House",
+          "to": "Kanan Pandari",
+          "distance_km": 17,
+          "stoppages": [
+            "Power House Chowk",
+            "Gurunanak Chowk",
+            "Bhagat Singh Chowk",
+            "Dayalband Chowk",
+            "Gandhi Chowk",
+            "Shiv Talkies Chowk",
+            "Agrasen Chowk",
+            "Magarpara Chowk",
+            "Bhartiya Nagar Chowk",
+            "Maharana Pratap Chowk",
+            "Mandir Chowk",
+            "Swimming Pool",
+            "Narmada Nagar Chowk",
+            "Sakri",
+            "Kanan Pandari"
+          ],
+          "total_stops": 15
+        },
+        {
+          "route_number": 2,
+          "from": "Railway Station",
+          "to": "Village Mopka",
+          "distance_km": 13.7,
+          "stoppages": [
+            "Railway Station",
+            "Titli Chowk",
+            "Church Chowk",
+            "Tarbahar Chowk",
+            "CMD Chowk",
+            "Bus Stand Chowk",
+            "Agrasen Chowk",
+            "Magarpara Chowk",
+            "Indu Chowk",
+            "Mandir Chowk",
+            "Nehru Chowk",
+            "Mahamaya Chowk",
+            "Nutan Chowk",
+            "Behetarai",
+            "Vasant Vihar",
+            "Mopka Chowk",
+            "Village Mopka"
+          ],
+          "total_stops": 17
+        },
+        {
+          "route_number": 3,
+          "from": "Railway Station",
+          "to": "Guru Ghasidas University (GGD), Koni",
+          "distance_km": 10.3,
+          "stoppages": [
+            "Railway Station",
+            "Church Chowk",
+            "Tarbahar Chowk",
+            "CMD Chowk",
+            "Agrasen Chowk",
+            "Civil Lines",
+            "GDC Chowk",
+            "Rajendranagar Chowk",
+            "Nehru Chowk",
+            "Mahamaya Chowk",
+            "Guru Ghasidas University"
+          ],
+          "total_stops": 11
+        },
+        {
+          "route_number": 4,
+          "from": "Village Sendri",
+          "to": "Chakarbhata (Bilaspur Airport)",
+          "distance_km": 21.9,
+          "stoppages": [
+            "Village Sendri",
+            "Guru Ghasidas University",
+            "Mahamaya Chowk",
+            "Nehru Chowk",
+            "Swimming Pool",
+            "Mangala Chowk",
+            "Shanti Nagar",
+            "Maharana Pratap Chowk",
+            "Parsada",
+            "High Court",
+            "Chakarbhata Chowk",
+            "Chakarbhata (Airport)"
+          ],
+          "total_stops": 12
+        }
+      ],
+      "future_planned_routes": [
+        "Bilaspur to Ratanpur",
+        "Bilaspur to Tifra",
+        "Bilaspur to Bilha",
+        "Bilaspur to Sakri"
+      ]
+    },
+    {
+      "category_id": 2,
+      "category_name": "Nearby / Small Town Routes from Bilaspur",
+      "description": "Short-distance routes to small towns and tehsil HQs near Bilaspur",
+      "routes": [
+        {
+          "route_id": 1,
+          "from": "Bilaspur ISBT",
+          "to": "Bilha",
+          "distance_km": "~22",
+          "duration": "~40m",
+          "fare_inr": "25 – 60",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Bilha"
+          ],
+          "daily_buses": "very frequent",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Near-suburban route, very high frequency"
+        },
+        {
+          "route_id": 2,
+          "from": "Bilaspur ISBT",
+          "to": "Ratanpur",
+          "distance_km": "~25",
+          "duration": "~45m",
+          "fare_inr": "25 – 60",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Ratanpur"
+          ],
+          "daily_buses": "very frequent",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Ancient capital of CG kings, very short high-frequency route"
+        },
+        {
+          "route_id": 3,
+          "from": "Bilaspur ISBT",
+          "to": "Takhatpur",
+          "distance_km": "~30",
+          "duration": "~45m",
+          "fare_inr": "30 – 80",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Bilha",
+            "Takhatpur"
+          ],
+          "daily_buses": "very frequent",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Buses run almost every 30 minutes"
+        },
+        {
+          "route_id": 4,
+          "from": "Bilaspur ISBT",
+          "to": "Mungeli",
+          "distance_km": "~55",
+          "duration": "~1h 30m",
+          "fare_inr": "60 – 150",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Takhatpur",
+            "Mungeli"
+          ],
+          "daily_buses": "frequent",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Via NH 130A. Nearest district HQ from Bilaspur"
+        },
+        {
+          "route_id": 5,
+          "from": "Bilaspur ISBT",
+          "to": "Champa",
+          "distance_km": "~55",
+          "duration": "~1h 15m",
+          "fare_inr": "55 – 130",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa"
+          ],
+          "daily_buses": "very frequent",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Industrial town on NH 200, very high frequency"
+        },
+        {
+          "route_id": 6,
+          "from": "Bilaspur ISBT",
+          "to": "Lormi",
+          "distance_km": "~61",
+          "duration": "~2h",
+          "fare_inr": "70 – 160",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Takhatpur",
+            "Mungeli",
+            "Lormi"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Via SH-10. Lormi is tehsil HQ in Mungeli district"
+        },
+        {
+          "route_id": 7,
+          "from": "Bilaspur ISBT",
+          "to": "Pendra Road",
+          "distance_km": "~95",
+          "duration": "~2h 30m",
+          "fare_inr": "120 – 300",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Ratanpur",
+            "Katghora",
+            "Pendra Road"
+          ],
+          "daily_buses": "frequent",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Gateway to Amarkantak and Maikal Hills"
+        },
+        {
+          "route_id": 8,
+          "from": "Bilaspur ISBT",
+          "to": "Katghora",
+          "distance_km": "~60",
+          "duration": "~1h 30m",
+          "fare_inr": "60 – 140",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Ratanpur",
+            "Katghora"
+          ],
+          "daily_buses": "frequent",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Coal belt corridor, Korba district border"
+        },
+        {
+          "route_id": 9,
+          "from": "Bilaspur ISBT",
+          "to": "Janjgir",
+          "distance_km": "~100",
+          "duration": "~2h 30m",
+          "fare_inr": "100 – 250",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Janjgir"
+          ],
+          "daily_buses": "frequent",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Via Champa. Janjgir is district HQ of Janjgir-Champa district"
+        },
+        {
+          "route_id": 10,
+          "from": "Bilaspur ISBT",
+          "to": "Sakti",
+          "distance_km": "~120",
+          "duration": "~3h",
+          "fare_inr": "130 – 300",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Janjgir",
+            "Sakti"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Via NH 200 east corridor"
+        },
+        {
+          "route_id": 11,
+          "from": "Bilaspur ISBT",
+          "to": "Chandrapur",
+          "distance_km": "~145",
+          "duration": "~4h",
+          "fare_inr": "180 – 450",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Janjgir",
+            "Sakti",
+            "Chandrapur"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Janjgir-Champa district corridor via NH 200"
+        },
+        {
+          "route_id": 12,
+          "from": "Bilaspur ISBT",
+          "to": "Sarangarh",
+          "distance_km": "~170",
+          "duration": "~4h 30m",
+          "fare_inr": "200 – 480",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Janjgir",
+            "Sakti",
+            "Sarangarh"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via NH 200, continues toward Raigarh after Sarangarh"
+        },
+        {
+          "route_id": 13,
+          "from": "Bilaspur ISBT",
+          "to": "Shankargarh",
+          "distance_km": "~110",
+          "duration": "~3h",
+          "fare_inr": "130 – 300",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Shankargarh"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "local operators"],
+          "notes": "Pendra-Marwahi area, Bilaspur district interior"
+        },
+        {
+          "route_id": 14,
+          "from": "Bilaspur ISBT",
+          "to": "Kawardha (Kabirdham)",
+          "distance_km": "~130",
+          "duration": "~3h 30m",
+          "fare_inr": "150 – 350",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Takhatpur",
+            "Mungeli",
+            "Lormi",
+            "Kawardha"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via SH-7, connects Kabirdham district HQ"
+        },
+        {
+          "route_id": 15,
+          "from": "Bilaspur ISBT",
+          "to": "Baikunthpur",
+          "distance_km": "~130",
+          "duration": "~3h 30m",
+          "fare_inr": "160 – 380",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Baikunthpur"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Korea district HQ via Surguja NH 111 corridor"
+        },
+        {
+          "route_id": 16,
+          "from": "Bilaspur ISBT",
+          "to": "Manendragarh",
+          "distance_km": "~165",
+          "duration": "~4h 30m",
+          "fare_inr": "200 – 450",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Baikunthpur",
+            "Manendragarh"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Korea district, coal-rich area near MP border"
+        },
+        {
+          "route_id": 17,
+          "from": "Bilaspur ISBT",
+          "to": "Chirimiri",
+          "distance_km": "~185",
+          "duration": "~5h",
+          "fare_inr": "230 – 500",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Baikunthpur",
+            "Manendragarh",
+            "Chirimiri"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Korea district, coal mining town near MP-CG border"
+        },
+        {
+          "route_id": 18,
+          "from": "Bilaspur ISBT",
+          "to": "Dharamjaygarh",
+          "distance_km": "~200",
+          "duration": "~5h",
+          "fare_inr": "280 – 550",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Raigarh",
+            "Dharamjaygarh"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Raigarh district interior via NH 200"
+        }
+      ]
+    },
+    {
+      "category_id": 3,
+      "category_name": "Intercity Routes within Chhattisgarh",
+      "description": "Long-distance routes from Bilaspur to major cities within CG",
+      "routes": [
+        {
+          "route_id": 1,
+          "from": "Bilaspur ISBT",
+          "to": "Raipur",
+          "distance_km": "~115",
+          "duration": "2h 45m – 3h 40m",
+          "fare_inr": "230 – 4000",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Tifra",
+            "Simga",
+            "Bhatapara",
+            "Tilda",
+            "Raipur ISBT"
+          ],
+          "daily_buses": "40+",
+          "operators": ["Raipur Bus Service", "Popular Bus Service", "New Royal Travels", "Shivam Transport", "CSRTC"],
+          "notes": "First bus ~00:15, last ~23:59. Busiest route from Bilaspur"
+        },
+        {
+          "route_id": 2,
+          "from": "Bilaspur ISBT",
+          "to": "Durg / Bhilai",
+          "distance_km": "~130",
+          "duration": "~3h",
+          "fare_inr": "200 – 500",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Tifra",
+            "Bhatapara",
+            "Raipur",
+            "Durg",
+            "Bhilai"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via Raipur, industrial corridor on NH 6"
+        },
+        {
+          "route_id": 3,
+          "from": "Bilaspur ISBT",
+          "to": "Korba",
+          "distance_km": "~94",
+          "duration": "~3h 30m",
+          "fare_inr": "150 – 600",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Ratanpur",
+            "Katghora",
+            "Dipka",
+            "Korba Bus Stand"
+          ],
+          "daily_buses": "5+",
+          "operators": ["Shri Hanuman Travels", "CSRTC"],
+          "notes": "Coal and power hub of CG"
+        },
+        {
+          "route_id": 4,
+          "from": "Bilaspur ISBT",
+          "to": "Raigarh",
+          "distance_km": "~156",
+          "duration": "~4h",
+          "fare_inr": "200 – 500",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Janjgir",
+            "Sakti",
+            "Sarangarh",
+            "Raigarh Bus Stand"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via NH 200 east CG corridor"
+        },
+        {
+          "route_id": 5,
+          "from": "Bilaspur ISBT",
+          "to": "Ambikapur",
+          "distance_km": "~159",
+          "duration": "~6h",
+          "fare_inr": "350 – 639",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Pendra",
+            "Baikunthpur",
+            "Ambikapur Bus Stand"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["Shivam Transport", "Rajhans Travels", "Rajdhani Transport"],
+          "notes": "Via NH 111, Surguja corridor"
+        },
+        {
+          "route_id": 6,
+          "from": "Bilaspur ISBT",
+          "to": "Rajnandgaon",
+          "distance_km": "~210",
+          "duration": "~5h",
+          "fare_inr": "250 – 550",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Tifra",
+            "Bhatapara",
+            "Raipur",
+            "Durg",
+            "Rajnandgaon"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via Raipur-Durg corridor on NH 6"
+        },
+        {
+          "route_id": 7,
+          "from": "Bilaspur ISBT",
+          "to": "Balrampur",
+          "distance_km": "~175",
+          "duration": "~4h 30m",
+          "fare_inr": "280 – 500",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Baikunthpur",
+            "Balrampur"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["Shivam Transport"],
+          "notes": "Surguja north corridor"
+        },
+        {
+          "route_id": 8,
+          "from": "Bilaspur ISBT",
+          "to": "Ramanujganj",
+          "distance_km": "~200",
+          "duration": "~5h",
+          "fare_inr": "300 – 600",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Baikunthpur",
+            "Balrampur",
+            "Ramanujganj"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["private operators"],
+          "notes": "North Surguja district, tribal belt"
+        },
+        {
+          "route_id": 9,
+          "from": "Bilaspur ISBT",
+          "to": "Dhamtari",
+          "distance_km": "~195",
+          "duration": "~5h 50m",
+          "fare_inr": "550 – 800",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Tifra",
+            "Bhatapara",
+            "Raipur",
+            "Arang",
+            "Dhamtari"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via Raipur. Gateway to Gangrel Dam and Udanti Wildlife Sanctuary"
+        },
+        {
+          "route_id": 10,
+          "from": "Bilaspur ISBT",
+          "to": "Jashpur",
+          "distance_km": "~286",
+          "duration": "7h – 8h",
+          "fare_inr": "500 – 900",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Raigarh",
+            "Gharghoda",
+            "Kunkuri",
+            "Pathalgaon",
+            "Jashpur Bus Stand"
+          ],
+          "daily_buses": "10+",
+          "operators": ["Radhe Krishna Travels", "Rajhans Travels", "Dashmesh Travels", "Sunny Travels"],
+          "notes": "Via east CG, near Jharkhand border"
+        },
+        {
+          "route_id": 11,
+          "from": "Bilaspur ISBT",
+          "to": "Lakhanpur",
+          "distance_km": "~220",
+          "duration": "~5h",
+          "fare_inr": "350 – 550",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Baikunthpur",
+            "Ambikapur",
+            "Sitapur",
+            "Lakhanpur"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["Shivam Transport"],
+          "notes": "North CG border-area route"
+        },
+        {
+          "route_id": 12,
+          "from": "Bilaspur ISBT",
+          "to": "Pathalgaon",
+          "distance_km": "~240",
+          "duration": "~6h",
+          "fare_inr": "350 – 650",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Raigarh",
+            "Gharghoda",
+            "Kunkuri",
+            "Pathalgaon"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["Rajhans Travels", "private operators"],
+          "notes": "Jashpur district, key town before Jashpur"
+        },
+        {
+          "route_id": 13,
+          "from": "Bilaspur ISBT",
+          "to": "Kunkuri",
+          "distance_km": "~225",
+          "duration": "~5h 30m",
+          "fare_inr": "320 – 600",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Raigarh",
+            "Gharghoda",
+            "Kunkuri"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["Rajhans Travels", "private operators"],
+          "notes": "Famous for Kunkuri Catholic Diocese, Jashpur district"
+        },
+        {
+          "route_id": 14,
+          "from": "Bilaspur ISBT",
+          "to": "Bagicha",
+          "distance_km": "~260",
+          "duration": "~6h 30m",
+          "fare_inr": "380 – 700",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Raigarh",
+            "Gharghoda",
+            "Kunkuri",
+            "Bagicha"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["private operators"],
+          "notes": "Jashpur district interior route"
+        },
+        {
+          "route_id": 15,
+          "from": "Bilaspur ISBT",
+          "to": "Udaipur (CG)",
+          "distance_km": "~190",
+          "duration": "~5h",
+          "fare_inr": "280 – 550",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Baikunthpur",
+            "Ambikapur",
+            "Udaipur"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Surguja district. Famous for Mahamaya Temple"
+        },
+        {
+          "route_id": 16,
+          "from": "Bilaspur ISBT",
+          "to": "Wadrafnagar",
+          "distance_km": "~210",
+          "duration": "~5h 30m",
+          "fare_inr": "300 – 580",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Baikunthpur",
+            "Balrampur",
+            "Wadrafnagar"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["private operators"],
+          "notes": "Balrampur district, north CG tribal belt"
+        },
+        {
+          "route_id": 17,
+          "from": "Bilaspur ISBT",
+          "to": "Kanker",
+          "distance_km": "~265",
+          "duration": "~7h",
+          "fare_inr": "400 – 700",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Raipur",
+            "Abhanpur",
+            "Dhamtari",
+            "Kanker"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "South Bastar region district HQ"
+        },
+        {
+          "route_id": 18,
+          "from": "Bilaspur ISBT",
+          "to": "Kondagaon",
+          "distance_km": "~300",
+          "duration": "~8h",
+          "fare_inr": "500 – 800",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Raipur",
+            "Kanker",
+            "Kondagaon"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Deep south CG, Bastar tribal region"
+        },
+        {
+          "route_id": 19,
+          "from": "Bilaspur ISBT",
+          "to": "Jagdalpur",
+          "distance_km": "~334",
+          "duration": "~10h",
+          "fare_inr": "619 – 810",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Raipur",
+            "Dhamtari",
+            "Kanker",
+            "Kondagaon",
+            "Jagdalpur Bus Stand"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "South CG / Bastar region. Overnight buses recommended"
+        },
+        {
+          "route_id": 20,
+          "from": "Bilaspur ISBT",
+          "to": "Dantewada",
+          "distance_km": "~430",
+          "duration": "~11h",
+          "fare_inr": "600 – 1000",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Raipur",
+            "Kanker",
+            "Jagdalpur",
+            "Dantewada"
+          ],
+          "daily_buses": "limited",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Deep south Bastar. Overnight travel recommended"
+        },
+        {
+          "route_id": 21,
+          "from": "Bilaspur ISBT",
+          "to": "Bijapur (CG)",
+          "distance_km": "~490",
+          "duration": "~12h",
+          "fare_inr": "700 – 1100",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Raipur",
+            "Kanker",
+            "Jagdalpur",
+            "Dantewada",
+            "Bijapur"
+          ],
+          "daily_buses": "limited",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Longest within-CG route. Overnight travel, deep Bastar region"
+        }
+      ]
+    },
+    {
+      "category_id": 4,
+      "category_name": "Interstate Routes from Bilaspur",
+      "description": "Long-distance routes from Bilaspur to other states",
+      "routes": [
+        {
+          "route_id": 1,
+          "from": "Bilaspur ISBT",
+          "to": "Nagpur",
+          "destination_state": "Maharashtra",
+          "distance_km": "~380",
+          "duration": "~8 – 9h",
+          "fare_inr": "400 – 900",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Raipur",
+            "Durg",
+            "Rajnandgaon",
+            "Gondia",
+            "Nagpur"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via NH 6. Passes through Maharashtra"
+        },
+        {
+          "route_id": 2,
+          "from": "Bilaspur ISBT",
+          "to": "Jabalpur",
+          "destination_state": "Madhya Pradesh",
+          "distance_km": "~280",
+          "duration": "~6h",
+          "fare_inr": "350 – 700",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Mungeli",
+            "Kawardha",
+            "Mandla",
+            "Jabalpur"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via SH-7. Connects Satpura region"
+        },
+        {
+          "route_id": 3,
+          "from": "Bilaspur ISBT",
+          "to": "Bhopal",
+          "destination_state": "Madhya Pradesh",
+          "distance_km": "~580",
+          "duration": "~11h",
+          "fare_inr": "500 – 1200",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Katghora",
+            "Pendra Road",
+            "Shahdol",
+            "Jabalpur",
+            "Narsinghpur",
+            "Bhopal"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via SH-5 / NH 30. Overnight buses available"
+        },
+        {
+          "route_id": 4,
+          "from": "Bilaspur ISBT",
+          "to": "Indore",
+          "destination_state": "Madhya Pradesh",
+          "distance_km": "~850",
+          "duration": "~16h",
+          "fare_inr": "700 – 1500",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Pendra Road",
+            "Shahdol",
+            "Jabalpur",
+            "Narsinghpur",
+            "Bhopal",
+            "Indore"
+          ],
+          "daily_buses": "limited",
+          "operators": ["private operators"],
+          "notes": "Overnight sleeper buses. Very long route"
+        },
+        {
+          "route_id": 5,
+          "from": "Bilaspur ISBT",
+          "to": "Varanasi",
+          "destination_state": "Uttar Pradesh",
+          "distance_km": "~640",
+          "duration": "~13 – 15h",
+          "fare_inr": "600 – 1200",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Pendra Road",
+            "Shahdol",
+            "Singrauli",
+            "Mirzapur",
+            "Varanasi"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["private operators"],
+          "notes": "Via SH-5 / NH 75. Overnight sleeper buses"
+        },
+        {
+          "route_id": 6,
+          "from": "Bilaspur ISBT",
+          "to": "Prayagraj (Allahabad)",
+          "destination_state": "Uttar Pradesh",
+          "distance_km": "~720",
+          "duration": "~14 – 16h",
+          "fare_inr": "650 – 1300",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Pendra Road",
+            "Shahdol",
+            "Rewa",
+            "Prayagraj"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["private operators"],
+          "notes": "Via SH-5 / NH. Long-distance overnight route"
+        },
+        {
+          "route_id": 7,
+          "from": "Bilaspur ISBT",
+          "to": "Ranchi",
+          "destination_state": "Jharkhand",
+          "distance_km": "~560",
+          "duration": "~12h",
+          "fare_inr": "600 – 1100",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Raigarh",
+            "Jashpur",
+            "Gumla",
+            "Ranchi"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["Radhe Krishna Travels", "private operators"],
+          "notes": "Via Jharkhand border. Overnight buses"
+        },
+        {
+          "route_id": 8,
+          "from": "Bilaspur ISBT",
+          "to": "Jamshedpur",
+          "destination_state": "Jharkhand",
+          "distance_km": "~650",
+          "duration": "~14h",
+          "fare_inr": "700 – 1300",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Champa",
+            "Raigarh",
+            "Jashpur",
+            "Chaibasa",
+            "Jamshedpur"
+          ],
+          "daily_buses": "limited",
+          "operators": ["private operators"],
+          "notes": "Via Jharkhand. Long-distance overnight route"
+        },
+        {
+          "route_id": 9,
+          "from": "Bilaspur ISBT",
+          "to": "Hyderabad",
+          "destination_state": "Telangana",
+          "distance_km": "~850",
+          "duration": "~16 – 18h",
+          "fare_inr": "800 – 1800",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Raipur",
+            "Jagdalpur",
+            "Bhadrachalam",
+            "Khammam",
+            "Hyderabad"
+          ],
+          "daily_buses": "limited",
+          "operators": ["private operators"],
+          "notes": "Overnight sleeper. Via south CG and Telangana"
+        },
+        {
+          "route_id": 10,
+          "from": "Bilaspur ISBT",
+          "to": "Sidhi",
+          "destination_state": "Madhya Pradesh",
+          "distance_km": "~320",
+          "duration": "~7h",
+          "fare_inr": "350 – 700",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Pendra Road",
+            "Shahdol",
+            "Sidhi"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["CSRTC", "private operators"],
+          "notes": "Via SH-5 / NH toward MP"
+        },
+        {
+          "route_id": 11,
+          "from": "Bilaspur ISBT",
+          "to": "Rewa",
+          "destination_state": "Madhya Pradesh",
+          "distance_km": "~420",
+          "duration": "~9h",
+          "fare_inr": "450 – 900",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Pendra Road",
+            "Shahdol",
+            "Sidhi",
+            "Rewa"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["private operators"],
+          "notes": "Via SH-5 / NH 75"
+        },
+        {
+          "route_id": 12,
+          "from": "Bilaspur ISBT",
+          "to": "Singrauli",
+          "destination_state": "Madhya Pradesh",
+          "distance_km": "~370",
+          "duration": "~8h",
+          "fare_inr": "400 – 800",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Pendra Road",
+            "Shahdol",
+            "Singrauli"
+          ],
+          "daily_buses": "multiple",
+          "operators": ["private operators"],
+          "notes": "Coal-belt MP border route"
+        },
+        {
+          "route_id": 13,
+          "from": "Bilaspur ISBT",
+          "to": "Renukoot",
+          "destination_state": "Uttar Pradesh",
+          "distance_km": "~440",
+          "duration": "~10h",
+          "fare_inr": "500 – 950",
+          "stoppages": [
+            "Bilaspur ISBT",
+            "Pendra Road",
+            "Shahdol",
+            "Singrauli",
+            "Renukoot"
+          ],
+          "daily_buses": "limited",
+          "operators": ["private operators"],
+          "notes": "Industrial town near UP-MP-CG tri-junction"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_city_bus_routes": 4,
+    "total_nearby_small_town_routes": 18,
+    "total_intercity_within_cg_routes": 21,
+    "total_interstate_routes": 13,
+    "grand_total_routes": 56
+  }
+}
