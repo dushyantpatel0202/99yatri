@@ -710,7 +710,7 @@ let busData = [];
 			en: {
 				language: "Language",
 				heroTitle: "HiFi Yatri Bus - Chhattisgarh",
-				heroSubtitle: "Choose your boarding station and destination station to see all buses, departure time, arrival time, and route details.",
+				heroSubtitle: "Choose your boarding station and destination station to see departure time, arrival time, and route details. Currently, only <strong>Bilaspur City Bus</strong> is available — all other buses coming soon!",
 				busList: "Bus List",
 				findBuses: "Find Buses",
 				startingStation: "Starting Station",
@@ -793,7 +793,7 @@ let busData = [];
 			hi: {
 				language: "भाषा",
 				heroTitle: "Where Is My Bus - छत्तीसगढ़",
-				heroSubtitle: "अपना शुरुआती स्टेशन और गंतव्य स्टेशन चुनें और सभी बसें, प्रस्थान समय, आगमन समय और रूट विवरण देखें।",
+				heroSubtitle: "अपना शुरुआती स्टेशन और गंतव्य स्टेशन चुनें और प्रस्थान समय, आगमन समय और रूट विवरण देखें। अभी केवल <strong>बिलासपुर सिटी बस</strong> उपलब्ध है — बाकी सभी बसें जल्द आ रही हैं!",
 				busList: "बस सूची",
 				findBuses: "बस खोजें",
 				startingStation: "शुरुआती स्टेशन",
@@ -2850,7 +2850,7 @@ let busData = [];
 			updateThemeToggleButton();
 			languageLabelEl.textContent = t("language");
 			heroTitleEl.textContent = t("heroTitle");
-			heroSubtitleEl.textContent = t("heroSubtitle");
+			heroSubtitleEl.innerHTML = t("heroSubtitle");
 			busListBtnEl.textContent = t("busList");
 			searchBtnEl.textContent = t("findBuses");
 			startLabelEl.textContent = t("startingStation");

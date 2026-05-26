@@ -2307,6 +2307,35 @@
 			opacity: 1;
 		}
 
+		body[data-theme="dark"] #startStation,
+		body[data-theme="dark"] #endStation {
+			background: #0b1523 !important;
+			color: #e6eefc !important;
+			border-color: #2d4263 !important;
+		}
+
+		body[data-theme="dark"] #startStation::placeholder,
+		body[data-theme="dark"] #endStation::placeholder {
+			color: #7a9cc4 !important;
+			opacity: 1;
+		}
+
+		body[data-theme="dark"] .mobile-suggestions {
+			background: #0f1a2b !important;
+			border-color: #2d4263 !important;
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+		}
+
+		body[data-theme="dark"] .mobile-suggestion-item {
+			color: #e6eefc !important;
+			border-bottom-color: #1e3048 !important;
+		}
+
+		body[data-theme="dark"] .mobile-suggestion-item:hover,
+		body[data-theme="dark"] .mobile-suggestion-item:active {
+			background: #1a2f4a !important;
+		}
+
 		body[data-theme="dark"] .swap-btn {
 			background: linear-gradient(120deg, #0f1e33, #132742);
 			color: #cae0ff;
