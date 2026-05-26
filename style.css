@@ -3056,8 +3056,8 @@ input, .station-input-wrapper {
     /* Fix hero section */
     .hero {
         width: 100%;
-        margin: 0;
-        border-radius: 0;
+        margin: 10px 0 0 0;
+        border-radius: 12px;
         padding: 15px;
         box-sizing: border-box;
     }
