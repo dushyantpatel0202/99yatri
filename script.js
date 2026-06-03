@@ -709,7 +709,7 @@ let busData = [];
 		const i18n = {
 			en: {
 				language: "Language",
-				heroTitle: "Online Yatra Bus - Chhattisgarh",
+				heroTitle: "99Yatri Bus - Chhattisgarh",
 				heroSubtitle: "Choose your boarding station and destination station to see departure time, arrival time, and route details. Currently, only <strong>Bilaspur City Bus</strong> is available — all other buses coming soon!",
 				busList: "Bus List",
 				findBuses: "Find Buses",
@@ -3217,7 +3217,7 @@ let busData = [];
 })();
 
 /* ══════════════════════════════════════════════════════
-   ONLINE YATRA — Yatra Travel Package Functions
+   99Yatri — Yatra Travel Package Functions
    Handles dynamic package loading from yatra.json
    and the full detail modal experience.
 ══════════════════════════════════════════════════════ */
@@ -3490,7 +3490,7 @@ function yatraRenderCards(packages, category) {
                 </div>
                 <div class="package-highlights">${pkg.highlights.map(function(h) { return `<span class="highlight-tag">${h}</span>`; }).join('')}</div>
                 <div class="card-actions">
-                    <button class="whatsapp-btn" data-wa="${pkg.whatsapp_number || '917489392280'}" data-title="${pkg.title}">
+                    <button class="whatsapp-btn" data-wa="${pkg.whatsapp_number || '917734906606'}" data-title="${pkg.title}">
                         <i class="fab fa-whatsapp"></i> Book via WhatsApp
                     </button>
                     <button class="detail-btn" data-id="${pkg.id}">🔍 Details</button>
