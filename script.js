@@ -709,7 +709,7 @@ let busData = [];
 		const i18n = {
 			en: {
 				language: "Language",
-				heroTitle: "HiFi Yatri Bus - Chhattisgarh",
+				heroTitle: "Online Yatra Bus - Chhattisgarh",
 				heroSubtitle: "Choose your boarding station and destination station to see departure time, arrival time, and route details. Currently, only <strong>Bilaspur City Bus</strong> is available — all other buses coming soon!",
 				busList: "Bus List",
 				findBuses: "Find Buses",
@@ -3217,12 +3217,21 @@ let busData = [];
 })();
 
 /* ══════════════════════════════════════════════════════
-   HIFI YATRI — Yatra Travel Package Functions
+   ONLINE YATRA — Yatra Travel Package Functions
    Handles dynamic package loading from yatra.json
    and the full detail modal experience.
 ══════════════════════════════════════════════════════ */
 
 /* ── Yatra helpers ── */
+
+/* Convert a package title to a URL-friendly slug */
+function toYatraSlug(title) {
+    return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+/* All loaded packages — kept globally so hash navigation can find them */
+var _yatraPackages = [];
+
 function yatrasetText(id, val) {
     const el = document.getElementById(id);
     if (el) el.textContent = val ?? '';
@@ -3242,10 +3251,16 @@ function openYatraDetail(pkg) {
     yatraPopulateModal(pkg);
     const modal = document.getElementById('detail-modal');
     if (!modal) return;
+    // Ensure the Yatra overlay is visible (needed when opening from a shared link)
+    openYatraOverlay();
     modal.classList.add('open');
     const closeBtn = document.getElementById('modal-close-btn');
     if (closeBtn) closeBtn.classList.add('visible');
+    const shareBtn = document.getElementById('modal-share-btn');
+    if (shareBtn) shareBtn.classList.add('visible');
     modal.scrollTop = 0;
+    // Update the URL hash so this page is shareable
+    history.replaceState(null, '', '#' + toYatraSlug(pkg.title));
 }
 
 function closeYatraDetail() {
@@ -3254,6 +3269,10 @@ function closeYatraDetail() {
     modal.classList.remove('open');
     const closeBtn = document.getElementById('modal-close-btn');
     if (closeBtn) closeBtn.classList.remove('visible');
+    const shareBtn = document.getElementById('modal-share-btn');
+    if (shareBtn) shareBtn.classList.remove('visible');
+    // Remove hash without adding a history entry
+    history.replaceState(null, '', window.location.pathname + window.location.search);
 }
 
 // Attach close button listener
@@ -3263,6 +3282,53 @@ function closeYatraDetail() {
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeYatraDetail();
     });
+
+    /* ── Share button ── */
+    var shareBtn = document.getElementById('modal-share-btn');
+    var shareToast = document.getElementById('share-toast');
+    var _shareToastTimer = null;
+
+    function showShareToast(msg) {
+        if (!shareToast) return;
+        shareToast.textContent = msg || 'Link copied!';
+        shareToast.classList.add('show');
+        clearTimeout(_shareToastTimer);
+        _shareToastTimer = setTimeout(function() {
+            shareToast.classList.remove('show');
+        }, 2200);
+    }
+
+    if (shareBtn) {
+        shareBtn.addEventListener('click', function() {
+            var url = window.location.href;
+            var title = document.getElementById('d-hero-title');
+            var pkgTitle = title ? title.textContent : 'Check out this trip!';
+            // Use Web Share API on supported devices (mobile)
+            if (navigator.share) {
+                navigator.share({
+                    title: pkgTitle,
+                    text: 'Book your next adventure — ' + pkgTitle,
+                    url: url
+                }).catch(function() {});
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(url).then(function() {
+                    showShareToast('Link copied!');
+                }).catch(function() {
+                    // Final fallback for older browsers
+                    var ta = document.createElement('textarea');
+                    ta.value = url;
+                    ta.style.position = 'fixed';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showShareToast('Link copied!');
+                });
+            }
+        });
+    }
 })();
 
 /* ── Populate detail modal ── */
@@ -3418,10 +3484,13 @@ function yatraRenderCards(packages, category) {
             <div class="card-content">
                 <h3 class="package-title">${pkg.title}</h3>
                 <div class="package-location"><i class="fas fa-map-marker-alt"></i> ${pkg.location}</div>
-                <div><span class="package-duration"><i class="far fa-calendar-alt"></i> ${pkg.duration}</span></div>
+                <div class="package-meta-row">
+                    <span class="package-duration"><i class="far fa-calendar-alt"></i> ${pkg.duration}</span>
+                    ${pkg.dates ? `<span class="package-dates"><i class="fas fa-calendar-check"></i> ${pkg.dates}</span>` : ''}
+                </div>
                 <div class="package-highlights">${pkg.highlights.map(function(h) { return `<span class="highlight-tag">${h}</span>`; }).join('')}</div>
                 <div class="card-actions">
-                    <button class="whatsapp-btn" data-wa="${pkg.whatsapp_number || '910000000000'}" data-title="${pkg.title}">
+                    <button class="whatsapp-btn" data-wa="${pkg.whatsapp_number || '917489392280'}" data-title="${pkg.title}">
                         <i class="fab fa-whatsapp"></i> Book via WhatsApp
                     </button>
                     <button class="detail-btn" data-id="${pkg.id}">🔍 Details</button>
@@ -3430,13 +3499,11 @@ function yatraRenderCards(packages, category) {
         </div>`;
     }).join('');
 
-    /* WhatsApp button */
+    /* WhatsApp button → open booking modal */
     grid.querySelectorAll('.whatsapp-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
-            var number = btn.dataset.wa;
-            var text = encodeURIComponent('Hi! I\'d like to book the "' + btn.dataset.title + '" package.');
-            window.open('https://wa.me/' + number + '?text=' + text, '_blank', 'noopener,noreferrer');
+            openWaBookingModal(btn.dataset.wa, btn.dataset.title);
         });
     });
 
@@ -3449,6 +3516,97 @@ function yatraRenderCards(packages, category) {
     });
 }
 
+/* ── WhatsApp Booking Modal ── */
+(function() {
+    var _waNumber = '';
+    var _waTitle  = '';
+    var _couponApplied = '';
+
+    var backdrop      = document.getElementById('waBookingBackdrop');
+    var pkgNameEl     = document.getElementById('waModalPkgName');
+    var nameInput     = document.getElementById('waNameInput');
+    var couponToggle  = document.getElementById('waCouponToggle');
+    var couponExpand  = document.getElementById('waCouponExpand');
+    var couponInput   = document.getElementById('waCouponInput');
+    var couponMsg     = document.getElementById('waCouponMsg');
+    var proceedBtn    = document.getElementById('waProceedBtn');
+    var closeBtn      = document.getElementById('waModalCloseBtn');
+
+    function openWaBookingModal(number, title) {
+        _waNumber      = number;
+        _waTitle       = title;
+        _couponApplied = '';
+        if (nameInput)    nameInput.value   = '';
+        if (couponInput)  couponInput.value  = '';
+        if (couponMsg)    { couponMsg.textContent = ''; couponMsg.className = 'wa-coupon-msg'; }
+        if (couponExpand) couponExpand.classList.remove('open');
+        if (couponToggle) couponToggle.classList.remove('active');
+        if (pkgNameEl)    pkgNameEl.textContent = title;
+        if (backdrop)     backdrop.classList.add('open');
+        if (nameInput)    nameInput.focus();
+    }
+    window.openWaBookingModal = openWaBookingModal;
+
+    function closeModal() {
+        if (backdrop) backdrop.classList.remove('open');
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    if (couponToggle) couponToggle.addEventListener('click', function() {
+        var isOpen = couponExpand.classList.toggle('open');
+        couponToggle.classList.toggle('active', isOpen);
+        if (isOpen) {
+            couponInput.focus();
+        } else {
+            couponInput.value  = '';
+            couponMsg.textContent = '';
+            couponMsg.className   = 'wa-coupon-msg';
+            _couponApplied = '';
+        }
+    });
+
+    if (couponInput) couponInput.addEventListener('change', function() {
+        var code = couponInput.value.trim().toUpperCase();
+        if (code) {
+            _couponApplied = code;
+            couponMsg.textContent = '✔ Coupon "' + code + '" will be applied!';
+            couponMsg.className   = 'wa-coupon-msg success';
+        } else {
+            _couponApplied = '';
+            couponMsg.textContent = '';
+            couponMsg.className   = 'wa-coupon-msg';
+        }
+    });
+
+    if (proceedBtn) proceedBtn.addEventListener('click', function() {
+        var name = (nameInput ? nameInput.value.trim() : '');
+        if (!name) {
+            nameInput.classList.add('shake');
+            nameInput.placeholder = 'Name is required!';
+            setTimeout(function() {
+                nameInput.classList.remove('shake');
+                nameInput.placeholder = 'Enter your full name';
+            }, 800);
+            return;
+        }
+        var msg = 'Hi! I\'m ' + name + ' and I\'d like to book the "' + _waTitle + '" package.';
+        var code = couponInput ? couponInput.value.trim().toUpperCase() : '';
+        if (code) msg += ' Coupon code: ' + code + '.';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(msg).catch(function() {});
+        }
+        window.open('https://wa.me/' + _waNumber + '?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+        closeModal();
+    });
+})();
+
 /* ── Bootstrap: load yatra.json then render ── */
 function loadYatraPackages() {
     fetch('yatra.json')
@@ -3457,9 +3615,11 @@ function loadYatraPackages() {
             return res.json();
         })
         .then(function(data) {
-            const packages = data.packages;
-            yatraRenderFilters(packages, 'all');
-            yatraRenderCards(packages, 'all');
+            _yatraPackages = data.packages;
+            yatraRenderFilters(_yatraPackages, 'all');
+            yatraRenderCards(_yatraPackages, 'all');
+            // Auto-open detail if a matching hash is in the URL
+            yatraHandleHash();
         })
         .catch(function(err) {
             console.error('Could not load yatra.json:', err);
@@ -3467,3 +3627,41 @@ function loadYatraPackages() {
             if (grid) grid.innerHTML = '<div class="loading">⚠️ Open via a local server (VS Code Live Server or <code>python -m http.server</code>) to load packages.</div>';
         });
 }
+
+/* Open the correct detail page based on current URL hash */
+function yatraHandleHash() {
+    var hash = window.location.hash.slice(1);
+    if (!hash || !_yatraPackages.length) return;
+    var pkg = _yatraPackages.find(function(p) { return toYatraSlug(p.title) === hash; });
+    if (pkg) {
+        // Populate & show without overwriting the hash again
+        yatraPopulateModal(pkg);
+        var modal = document.getElementById('detail-modal');
+        if (modal) modal.classList.add('open');
+        var closeBtn = document.getElementById('modal-close-btn');
+        if (closeBtn) closeBtn.classList.add('visible');
+    }
+}
+
+/* Listen for browser back / forward so the detail opens / closes correctly */
+window.addEventListener('hashchange', function() {
+    var hash = window.location.hash.slice(1);
+    if (!hash) {
+        // Hash was cleared — close detail (without clearing hash again)
+        var modal = document.getElementById('detail-modal');
+        if (modal) modal.classList.remove('open');
+        var closeBtn = document.getElementById('modal-close-btn');
+        if (closeBtn) closeBtn.classList.remove('visible');
+    } else {
+        yatraHandleHash();
+    }
+});
+
+/* Auto-open yatra overlay + detail on page load when a hash is present */
+document.addEventListener('DOMContentLoaded', function() {
+    var hash = window.location.hash.slice(1);
+    if (hash && hash !== 'admin') {
+        // openYatraOverlay will call loadYatraPackages which calls yatraHandleHash
+        openYatraOverlay();
+    }
+});
