@@ -709,7 +709,7 @@ let busData = [];
 		const i18n = {
 			en: {
 				language: "Language",
-				heroTitle: "99Yatri Bus - Chhattisgarh",
+				heroTitle: "YatriPlus.com Bus - Chhattisgarh",
 				heroSubtitle: "Choose your boarding station and destination station to see departure time, arrival time, and route details. Currently, only <strong>Bilaspur City Bus</strong> is available — all other buses coming soon!",
 				busList: "Bus List",
 				findBuses: "Find Buses",
@@ -3217,7 +3217,7 @@ let busData = [];
 })();
 
 /* ══════════════════════════════════════════════════════
-   99Yatri — Yatra Travel Package Functions
+   YatriPlus.com — Yatra Travel Package Functions
    Handles dynamic package loading from yatra.json
    and the full detail modal experience.
 ══════════════════════════════════════════════════════ */
