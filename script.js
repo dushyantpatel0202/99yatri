@@ -3460,15 +3460,47 @@ function yatraRenderFilters(packages, activeCategory) {
     });
 }
 
+/* ── Haversine distance in km between two lat/lng points ── */
+function haversineKm(lat1, lng1, lat2, lng2) {
+    var R = 6371;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLng = (lng2 - lng1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+/* Returns all departure locations sorted nearest-first for a package */
+function getNearestDeparture(pkg, userLat, userLng) {
+    if (!Array.isArray(pkg.departure_locations) || !pkg.departure_locations.length) return null;
+    var sorted = pkg.departure_locations.map(function(loc) {
+        return { name: loc.name, dist: haversineKm(userLat, userLng, loc.lat, loc.lng) };
+    }).sort(function(a, b) { return a.dist - b.dist; });
+    return sorted; /* array, [0] is nearest */
+}
+
 /* ── Render package cards ── */
-function yatraRenderCards(packages, category) {
+function yatraRenderCards(packages, category, userLoc) {
     if (category === undefined) category = 'all';
     const grid = document.getElementById('packagesGrid');
     if (!grid) return;
 
-    const list = category === 'all'
-        ? packages
+    var list = category === 'all'
+        ? packages.slice()
         : packages.filter(function(p) { return p.category === category; });
+
+    /* If userLoc provided, sort by nearest departure location */
+    if (userLoc) {
+        list.forEach(function(pkg) {
+            pkg._nearestDep = getNearestDeparture(pkg, userLoc.lat, userLoc.lng);
+        });
+        list.sort(function(a, b) {
+            var da = a._nearestDep ? a._nearestDep[0].dist : Infinity;
+            var db = b._nearestDep ? b._nearestDep[0].dist : Infinity;
+            return da - db;
+        });
+    }
 
     if (!list.length) {
         grid.innerHTML = '<div class="loading">No packages found in this category 🙏</div>';
@@ -3476,6 +3508,16 @@ function yatraRenderCards(packages, category) {
     }
 
     grid.innerHTML = list.map(function(pkg) {
+        var nearBadge = '';
+        if (userLoc && pkg._nearestDep && pkg._nearestDep.length) {
+            var stops = pkg._nearestDep.map(function(dep, i) {
+                var km = dep.dist;
+                var distLabel = km < 1 ? 'Near you' : (km < 1000 ? Math.round(km) + ' km' : Math.round(km / 10) / 100 + 'k km');
+                var cls = i === 0 ? 'dep-stop dep-nearest' : 'dep-stop';
+                return `<span class="${cls}"><i class="fas fa-map-pin"></i> ${dep.name} <em>${distLabel}</em></span>`;
+            }).join('');
+            nearBadge = `<div class="pkg-distance-badge">${stops}</div>`;
+        }
         return `<div class="package-card">
             <div class="card-image" style="background-image:url('${pkg.image}')">
                 <span class="category-badge">${pkg.category_display}</span>
@@ -3484,6 +3526,7 @@ function yatraRenderCards(packages, category) {
             <div class="card-content">
                 <h3 class="package-title">${pkg.title}</h3>
                 <div class="package-location"><i class="fas fa-map-marker-alt"></i> ${pkg.location}</div>
+                ${nearBadge}
                 <div class="package-meta-row">
                     <span class="package-duration"><i class="far fa-calendar-alt"></i> ${pkg.duration}</span>
                     ${pkg.dates ? `<span class="package-dates"><i class="fas fa-calendar-check"></i> ${pkg.dates}</span>` : ''}
@@ -3665,3 +3708,80 @@ document.addEventListener('DOMContentLoaded', function() {
         openYatraOverlay();
     }
 });
+
+/* ── Sort by Location (GPS) ── */
+(function() {
+    var _yatraUserLoc = null;
+    var _yatraSortActive = false;
+
+    var btn = document.getElementById('sortByLocationBtn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function() {
+        if (_yatraSortActive) {
+            /* Toggle off — reset to normal order */
+            _yatraSortActive = false;
+            _yatraUserLoc = null;
+            btn.classList.remove('active');
+            btn.innerHTML = '<i class="fas fa-crosshairs"></i> Near Me';
+            var activeFilter = document.querySelector('#categoryFilter .filter-btn.active');
+            var cat = activeFilter ? activeFilter.dataset.category : 'all';
+            yatraRenderFilters(_yatraPackages, cat);
+            yatraRenderCards(_yatraPackages, cat);
+            return;
+        }
+
+        if (!navigator.geolocation) {
+            alert('Geolocation is not supported by your browser.');
+            return;
+        }
+
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Locating…';
+        btn.disabled = true;
+
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                _yatraUserLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                _yatraSortActive = true;
+                btn.disabled = false;
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fas fa-crosshairs"></i> Near Me ✓';
+
+                var activeFilter = document.querySelector('#categoryFilter .filter-btn.active');
+                var cat = activeFilter ? activeFilter.dataset.category : 'all';
+                yatraRenderFilters(_yatraPackages, cat);
+                yatraRenderCards(_yatraPackages, cat, _yatraUserLoc);
+            },
+            function(err) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-crosshairs"></i> Near Me';
+                var msgs = {
+                    1: 'Location access denied. Please allow location permission and try again.',
+                    2: 'Location unavailable. Please check your GPS/network.',
+                    3: 'Location request timed out. Please try again.'
+                };
+                alert(msgs[err.code] || 'Could not get your location.');
+            },
+            { timeout: 10000, maximumAge: 60000 }
+        );
+    });
+
+    /* Preserve sort when filter buttons are clicked — patch filter render */
+    var _origYatraRenderFilters = yatraRenderFilters;
+    yatraRenderFilters = function(packages, activeCategory) {
+        _origYatraRenderFilters(packages, activeCategory);
+        /* Re-attach filter click to also pass userLoc */
+        var filterEl = document.getElementById('categoryFilter');
+        if (!filterEl) return;
+        filterEl.querySelectorAll('.filter-btn').forEach(function(fbtn) {
+            var oldClick = fbtn.onclick;
+            fbtn.replaceWith(fbtn.cloneNode(true));
+        });
+        filterEl.querySelectorAll('.filter-btn').forEach(function(fbtn) {
+            fbtn.addEventListener('click', function() {
+                yatraRenderFilters(packages, fbtn.dataset.category);
+                yatraRenderCards(packages, fbtn.dataset.category, _yatraSortActive ? _yatraUserLoc : null);
+            });
+        });
+    };
+})();

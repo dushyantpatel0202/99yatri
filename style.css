@@ -3471,6 +3471,85 @@ input, .station-input-wrapper {
     margin-top: 0.5rem;
 }
 
+.app-header-tools {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+/* ── Sort by Location button ── */
+.sort-location-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #1a1f2e;
+    border: 1.5px solid #ff6b3d;
+    color: #ff6b3d;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, box-shadow 0.22s;
+    letter-spacing: 0.02em;
+}
+.sort-location-btn:hover {
+    background: #ff6b3d22;
+    box-shadow: 0 0 12px #ff6b3d55;
+}
+.sort-location-btn.active {
+    background: #ff6b3d;
+    color: #fff;
+    box-shadow: 0 0 16px #ff6b3d88;
+}
+.sort-location-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ── Distance badge on package cards ── */
+.pkg-distance-badge {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.35rem 0 0.45rem;
+}
+.dep-stop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: rgba(238,242,255,0.6);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 0.22rem 0.65rem;
+}
+.dep-stop i {
+    font-size: 0.7rem;
+    color: rgba(238,242,255,0.4);
+}
+.dep-stop em {
+    font-style: normal;
+    font-size: 0.72rem;
+    opacity: 0.75;
+}
+/* Nearest stop — highlighted green */
+.dep-nearest {
+    color: #4ade80;
+    background: rgba(74,222,128,0.12);
+    border-color: rgba(74,222,128,0.3);
+    font-weight: 700;
+}
+.dep-nearest i {
+    color: #4ade80;
+}
+.dep-nearest em {
+    opacity: 1;
+}
+
+
 /* ── Category Filter ── */
 .category-filter {
     display: flex;

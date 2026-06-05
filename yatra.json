@@ -159,7 +159,19 @@
           "Goa",
           "₹15K"
         ]
-      }
+      },
+      "departure_locations": [
+        {
+          "name": "Bangalore",
+          "lat": 12.9716,
+          "lng": 77.5946
+        },
+        {
+          "name": "Raipur",
+          "lat": 21.2514,
+          "lng": 81.6296
+        }
+      ]
     },
     {
       "id": 2,
@@ -320,7 +332,19 @@
           "Uttarakhand",
           "₹35K"
         ]
-      }
+      },
+      "departure_locations": [
+        {
+          "name": "Haridwar",
+          "lat": 29.9457,
+          "lng": 78.1642
+        },
+        {
+          "name": "Dabhra",
+          "lat": 21.909,
+          "lng": 83.145
+        }
+      ]
     },
     {
       "id": 3,
@@ -478,7 +502,19 @@
           "Kashmir",
           "₹28K"
         ]
-      }
+      },
+      "departure_locations": [
+        {
+          "name": "Srinagar",
+          "lat": 34.0837,
+          "lng": 74.7973
+        },
+        {
+          "name": "Delhi",
+          "lat": 28.6139,
+          "lng": 77.209
+        }
+      ]
     },
     {
       "id": 4,
@@ -637,7 +673,19 @@
           "Uttarakhand",
           "₹12.5K"
         ]
-      }
+      },
+      "departure_locations": [
+        {
+          "name": "Rishikesh",
+          "lat": 30.0869,
+          "lng": 78.2676
+        },
+        {
+          "name": "Delhi",
+          "lat": 28.6139,
+          "lng": 77.209
+        }
+      ]
     },
     {
       "id": 5,
@@ -804,7 +852,19 @@
           "Rajasthan",
           "₹22K"
         ]
-      }
+      },
+      "departure_locations": [
+        {
+          "name": "Jaipur",
+          "lat": 26.9124,
+          "lng": 75.7873
+        },
+        {
+          "name": "Delhi",
+          "lat": 28.6139,
+          "lng": 77.209
+        }
+      ]
     },
     {
       "id": 6,
@@ -946,7 +1006,19 @@
           "Corbett",
           "₹8.5K"
         ]
-      }
+      },
+      "departure_locations": [
+        {
+          "name": "Ramnagar",
+          "lat": 29.3752,
+          "lng": 79.1289
+        },
+        {
+          "name": "Delhi",
+          "lat": 28.6139,
+          "lng": 77.209
+        }
+      ]
     },
     {
       "id": 7,
@@ -1099,7 +1171,19 @@
           "Andaman",
           "₹32K"
         ]
-      }
+      },
+      "departure_locations": [
+        {
+          "name": "Port Blair",
+          "lat": 11.7401,
+          "lng": 92.7382
+        },
+        {
+          "name": "Chennai",
+          "lat": 13.0827,
+          "lng": 80.2707
+        }
+      ]
     },
     {
       "id": 8,
@@ -1256,7 +1340,19 @@
           "Rishikesh",
           "₹9.5K"
         ]
-      }
+      },
+      "departure_locations": [
+        {
+          "name": "Rishikesh",
+          "lat": 30.0869,
+          "lng": 78.2676
+        },
+        {
+          "name": "Delhi",
+          "lat": 28.6139,
+          "lng": 77.209
+        }
+      ]
     }
   ]
 }
