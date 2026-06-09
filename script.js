@@ -3259,8 +3259,8 @@ function openYatraDetail(pkg) {
     const shareBtn = document.getElementById('modal-share-btn');
     if (shareBtn) shareBtn.classList.add('visible');
     modal.scrollTop = 0;
-    // Update the URL hash so this page is shareable
-    history.replaceState(null, '', '#' + toYatraSlug(pkg.title));
+    // Push a history entry so browser back closes the detail
+    history.pushState({ yatraDetail: toYatraSlug(pkg.title) }, '', window.location.href.split('#')[0] + (window.location.hash || ''));
 }
 
 function closeYatraDetail() {
@@ -3271,8 +3271,6 @@ function closeYatraDetail() {
     if (closeBtn) closeBtn.classList.remove('visible');
     const shareBtn = document.getElementById('modal-share-btn');
     if (shareBtn) shareBtn.classList.remove('visible');
-    // Remove hash without adding a history entry
-    history.replaceState(null, '', window.location.pathname + window.location.search);
 }
 
 // Attach close button listener
@@ -3518,12 +3516,21 @@ function yatraRenderCards(packages, category, userLoc) {
             }).join('');
             nearBadge = `<div class="pkg-distance-badge">${stops}</div>`;
         }
+        var providerBadge = '';
+        if (pkg.provider_name && pkg.provider_code) {
+            providerBadge = `<div class="provider-badge"><i class="fas fa-building"></i> ${pkg.provider_name} <span class="provider-code">(${pkg.provider_code})</span></div>`;
+        }
+        var cardShareBtn = pkg.provider_code
+            ? `<button class="card-share-btn" data-provider-code="${pkg.provider_code}" data-provider-name="${(pkg.provider_name||'').replace(/"/g,'&quot;')}" title="Share ${pkg.provider_name||''} link"><i class="fas fa-share-alt"></i></button>`
+            : '';
         return `<div class="package-card">
             <div class="card-image" style="background-image:url('${pkg.image}')">
                 <span class="category-badge">${pkg.category_display}</span>
+                ${cardShareBtn}
                 <span class="price-badge">${yatraFormatPrice(pkg.price, pkg.currency)}</span>
             </div>
             <div class="card-content">
+                ${providerBadge}
                 <h3 class="package-title">${pkg.title}</h3>
                 <div class="package-location"><i class="fas fa-map-marker-alt"></i> ${pkg.location}</div>
                 ${nearBadge}
@@ -3555,6 +3562,44 @@ function yatraRenderCards(packages, category, userLoc) {
         btn.addEventListener('click', function() {
             const pkg = packages.find(function(p) { return p.id === Number(btn.dataset.id); });
             if (pkg) openYatraDetail(pkg);
+        });
+    });
+
+    /* Card share button — top-right of card image */
+    grid.querySelectorAll('.card-share-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var code = btn.dataset.providerCode;
+            var name = btn.dataset.providerName;
+            var link = window.location.href.split('#')[0] + '#' + code;
+            function showToast(msg) {
+                var t = document.getElementById('card-share-toast');
+                if (!t) {
+                    t = document.createElement('div');
+                    t.id = 'card-share-toast';
+                    t.className = 'card-share-toast';
+                    document.body.appendChild(t);
+                }
+                t.textContent = msg;
+                t.classList.add('show');
+                clearTimeout(t._timer);
+                t._timer = setTimeout(function() { t.classList.remove('show'); }, 2500);
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(link).then(function() {
+                    showToast('✅ Link copied! Share: #' + code);
+                }).catch(function() { showToast('📋 ' + link); });
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = link;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); showToast('✅ Link copied! Share: #' + code); }
+                catch(er) { showToast('📋 ' + link); }
+                document.body.removeChild(ta);
+            }
         });
     });
 }
@@ -3650,6 +3695,207 @@ function yatraRenderCards(packages, category, userLoc) {
     });
 })();
 
+/* ── Provider Search ── */
+function yatraProviderNormalize(str) {
+    // lowercase, collapse whitespace, strip punctuation for fuzzy matching
+    return (str || '').toLowerCase().replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function yatraProviderMatches(pkg, query) {
+    if (!query) return true;
+    var q = yatraProviderNormalize(query);
+    // exact code check (101 / 102)
+    if (pkg.provider_code && pkg.provider_code === query.trim()) return true;
+    // fuzzy name check: every word in query must appear somewhere in normalised provider string
+    var haystack = yatraProviderNormalize((pkg.provider_name || '') + ' ' + (pkg.provider_code || ''));
+    var words = q.split(' ').filter(Boolean);
+    return words.every(function(w) { return haystack.indexOf(w) !== -1; });
+}
+
+function yatraGetActiveCategory() {
+    var btn = document.querySelector('#categoryFilter .filter-btn.active');
+    return btn ? btn.dataset.category : 'all';
+}
+
+function yatraApplyProviderSearch() {
+    var input = document.getElementById('providerSearchInput');
+    var query = input ? input.value : '';
+    var cat = yatraGetActiveCategory();
+    var filtered = _yatraPackages.filter(function(p) {
+        var catOk = (cat === 'all' || p.category === cat);
+        return catOk && yatraProviderMatches(p, query);
+    });
+    var grid = document.getElementById('packagesGrid');
+    if (!grid) return;
+    if (!filtered.length) {
+        grid.innerHTML = '<div class="loading">No packages found for that provider 🙏</div>';
+        return;
+    }
+    yatraRenderCards(filtered, 'all');
+}
+
+function yatraInitProviderSearch() {
+    var input = document.getElementById('providerSearchInput');
+    var clearBtn = document.getElementById('providerSearchClear');
+    if (!input) return;
+
+    input.addEventListener('input', function() {
+        if (clearBtn) clearBtn.style.display = input.value ? '' : 'none';
+        yatraApplyProviderSearch();
+    });
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            input.value = '';
+            clearBtn.style.display = 'none';
+            var cat = yatraGetActiveCategory();
+            yatraRenderCards(_yatraPackages, cat);
+        });
+    }
+
+    // Re-apply search when category filter changes
+    var filterEl = document.getElementById('categoryFilter');
+    if (filterEl) {
+        filterEl.addEventListener('click', function() {
+            if (input.value) {
+                // slight delay so category filter updates first
+                setTimeout(yatraApplyProviderSearch, 0);
+            }
+        });
+    }
+}
+
+/* ── Provider deep-link helpers ── */
+function toProviderSlug(name, code) {
+    return (name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + (code || '');
+}
+
+function yatraGetUniqueProviders() {
+    var seen = {};
+    var result = [];
+    _yatraPackages.forEach(function(p) {
+        if (p.provider_code && !seen[p.provider_code]) {
+            seen[p.provider_code] = true;
+            result.push({ name: p.provider_name || '', code: p.provider_code });
+        }
+    });
+    return result;
+}
+
+/* Try to apply a provider filter from a URL hash string.
+   Returns true if the hash matched a provider. */
+function yatraApplyProviderHash(hash) {
+    var input = document.getElementById('providerSearchInput');
+    var clearBtn = document.getElementById('providerSearchClear');
+
+    // pure numeric → match provider_code directly (e.g. #101)
+    if (/^\d+$/.test(hash)) {
+        var codeMatch = _yatraPackages.some(function(p) { return p.provider_code === hash; });
+        if (codeMatch) {
+            if (input) { input.value = hash; }
+            if (clearBtn) { clearBtn.style.display = ''; }
+            yatraApplyProviderSearch();
+            return true;
+        }
+    }
+
+    // slug like sample-tour-and-travel-101 → match full name+code slug
+    var slugMatch = _yatraPackages.find(function(p) {
+        return p.provider_name && p.provider_code &&
+               toProviderSlug(p.provider_name, p.provider_code) === hash;
+    });
+    if (slugMatch) {
+        if (input) { input.value = slugMatch.provider_code; }
+        if (clearBtn) { clearBtn.style.display = ''; }
+        yatraApplyProviderSearch();
+        return true;
+    }
+
+    return false;
+}
+
+/* ── Share popup ── */
+function yatraShowSharePopup() {
+    var popup = document.getElementById('providerSharePopup');
+    if (!popup) return;
+
+    if (popup.classList.contains('open')) {
+        popup.classList.remove('open');
+        return;
+    }
+
+    var providers = yatraGetUniqueProviders();
+    var base = window.location.href.split('#')[0];
+
+    popup.innerHTML = '<div class="share-popup-title"><i class="fas fa-share-alt"></i> Provider Share Links</div>' +
+        providers.map(function(p) {
+            var shortLink = base + '#' + p.code;
+            var fullSlug = toProviderSlug(p.name, p.code);
+            var fullLink = base + '#' + fullSlug;
+            return '<div class="share-popup-row">' +
+                '<div class="share-popup-name">' + p.name + ' <span class="share-popup-code">(' + p.code + ')</span></div>' +
+                '<div class="share-popup-links">' +
+                    '<span class="share-popup-link-text">' + shortLink + '</span>' +
+                '</div>' +
+                '<div class="share-popup-actions">' +
+                    '<button class="share-copy-btn" data-link="' + shortLink + '" title="Copy short link"><i class="fas fa-copy"></i> Copy #' + p.code + '</button>' +
+                    '<button class="share-copy-btn share-copy-full" data-link="' + fullLink + '" title="Copy full link"><i class="fas fa-link"></i> Copy Full</button>' +
+                '</div>' +
+            '</div>';
+        }).join('') +
+        '<div class="share-popup-hint">Anyone who opens this link will see only that provider\'s packages.</div>';
+
+    popup.classList.add('open');
+
+    popup.querySelectorAll('.share-copy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var link = btn.dataset.link;
+            function markCopied() {
+                var orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('copied');
+                setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(link).then(markCopied).catch(function() {
+                    fallbackCopy(link); markCopied();
+                });
+            } else {
+                fallbackCopy(link); markCopied();
+            }
+        });
+    });
+
+    function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch(e) {}
+        document.body.removeChild(ta);
+    }
+}
+
+function yatraInitShareBtn() {
+    var btn = document.getElementById('shareProviderBtn');
+    if (!btn) return;
+    btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        yatraShowSharePopup();
+    });
+    // Close popup when clicking outside
+    document.addEventListener('click', function(e) {
+        var popup = document.getElementById('providerSharePopup');
+        var wrap = document.getElementById('shareProviderWrap');
+        if (popup && popup.classList.contains('open') && wrap && !wrap.contains(e.target)) {
+            popup.classList.remove('open');
+        }
+    });
+}
+
 /* ── Bootstrap: load yatra.json then render ── */
 function loadYatraPackages() {
     fetch('yatra.json')
@@ -3661,6 +3907,8 @@ function loadYatraPackages() {
             _yatraPackages = data.packages;
             yatraRenderFilters(_yatraPackages, 'all');
             yatraRenderCards(_yatraPackages, 'all');
+            // Wire up provider search box
+            yatraInitProviderSearch();
             // Auto-open detail if a matching hash is in the URL
             yatraHandleHash();
         })
@@ -3675,29 +3923,27 @@ function loadYatraPackages() {
 function yatraHandleHash() {
     var hash = window.location.hash.slice(1);
     if (!hash || !_yatraPackages.length) return;
-    var pkg = _yatraPackages.find(function(p) { return toYatraSlug(p.title) === hash; });
-    if (pkg) {
-        // Populate & show without overwriting the hash again
-        yatraPopulateModal(pkg);
-        var modal = document.getElementById('detail-modal');
-        if (modal) modal.classList.add('open');
-        var closeBtn = document.getElementById('modal-close-btn');
-        if (closeBtn) closeBtn.classList.add('visible');
-    }
+
+    // Match a provider hash (#101, #102, #sample-tour-and-travel-101)
+    yatraApplyProviderHash(hash);
 }
 
-/* Listen for browser back / forward so the detail opens / closes correctly */
-window.addEventListener('hashchange', function() {
-    var hash = window.location.hash.slice(1);
-    if (!hash) {
-        // Hash was cleared — close detail (without clearing hash again)
-        var modal = document.getElementById('detail-modal');
-        if (modal) modal.classList.remove('open');
+/* Browser back/forward: close detail if user pressed back */
+window.addEventListener('popstate', function(e) {
+    var modal = document.getElementById('detail-modal');
+    if (modal && modal.classList.contains('open')) {
+        modal.classList.remove('open');
         var closeBtn = document.getElementById('modal-close-btn');
         if (closeBtn) closeBtn.classList.remove('visible');
-    } else {
-        yatraHandleHash();
+        var shareBtn = document.getElementById('modal-share-btn');
+        if (shareBtn) shareBtn.classList.remove('visible');
     }
+});
+
+/* Hash change: apply provider filter if hash changes */
+window.addEventListener('hashchange', function() {
+    var hash = window.location.hash.slice(1);
+    if (hash) yatraHandleHash();
 });
 
 /* Auto-open yatra overlay + detail on page load when a hash is present */

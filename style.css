@@ -3474,7 +3474,10 @@ input, .station-input-wrapper {
 .app-header-tools {
     display: flex;
     justify-content: center;
+    gap: 0.75rem;
     margin-top: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 /* ── Sort by Location button ── */
@@ -3505,6 +3508,122 @@ input, .station-input-wrapper {
 .sort-location-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+/* ── Share Provider button & popup ── */
+.share-provider-wrap {
+    position: relative;
+}
+
+.share-provider-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #1a1f2e;
+    border: 1.5px solid #6366f1;
+    color: #a5b4fc;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, box-shadow 0.22s;
+    letter-spacing: 0.02em;
+    font-family: 'Inter', sans-serif;
+}
+.share-provider-btn:hover {
+    background: #6366f122;
+    color: #c7d2fe;
+    box-shadow: 0 0 12px #6366f155;
+}
+
+.provider-share-popup {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    right: 0;
+    width: 330px;
+    background: #111827;
+    border: 1.5px solid #2d3748;
+    border-radius: 1rem;
+    padding: 1rem;
+    z-index: 9999;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+}
+.provider-share-popup.open { display: block; }
+
+.share-popup-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #a5b4fc;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.share-popup-row {
+    background: #1a2236;
+    border: 1px solid #2d3748;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    margin-bottom: 0.6rem;
+}
+
+.share-popup-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #eef2ff;
+    margin-bottom: 0.35rem;
+}
+.share-popup-code {
+    color: #6366f1;
+    font-weight: 700;
+}
+
+.share-popup-link-text {
+    font-size: 0.7rem;
+    color: #6b7280;
+    word-break: break-all;
+    font-family: 'Space Mono', monospace;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.share-popup-actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.share-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: #6366f1;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-family: 'Inter', sans-serif;
+}
+.share-copy-btn:hover { background: #4f46e5; transform: scale(1.04); }
+.share-copy-btn.copied { background: #22c55e; }
+.share-copy-full { background: #374151; }
+.share-copy-full:hover { background: #4b5563; }
+
+.share-popup-hint {
+    font-size: 0.68rem;
+    color: #4b5563;
+    text-align: center;
+    margin-top: 0.5rem;
+    line-height: 1.4;
 }
 
 /* ── Distance badge on package cards ── */
@@ -3622,6 +3741,59 @@ input, .station-input-wrapper {
     color: #0a0c10;
 }
 
+/* ── Card share button (top-right of card image) ── */
+.card-share-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(99, 102, 241, 0.85);
+    backdrop-filter: blur(6px);
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.18s, box-shadow 0.2s;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.45);
+    z-index: 2;
+}
+.card-share-btn:hover {
+    background: rgba(79, 70, 229, 0.95);
+    transform: scale(1.12);
+    box-shadow: 0 4px 16px rgba(99,102,241,0.5);
+}
+
+/* ── Card share toast notification ── */
+.card-share-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1e2a3a;
+    border: 1px solid #6366f1;
+    color: #eef2ff;
+    padding: 0.65rem 1.4rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 99999;
+    white-space: nowrap;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+}
+.card-share-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 .price-badge {
     position: absolute;
     bottom: 1rem;
@@ -3638,6 +3810,66 @@ input, .station-input-wrapper {
 .card-content {
     padding: 1.2rem;
 }
+
+/* ── Provider badge inside card ── */
+.provider-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(99, 102, 241, 0.18);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: 20px;
+    padding: 0.22rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #a5b4fc;
+    margin-bottom: 0.6rem;
+}
+.provider-badge i { font-size: 0.65rem; opacity: 0.8; }
+.provider-code { opacity: 0.75; font-weight: 700; }
+
+/* ── Provider search box ── */
+.provider-search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0.6rem 1rem 0.8rem;
+}
+.provider-search-icon {
+    position: absolute;
+    left: 0.85rem;
+    color: #6366f1;
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+.provider-search-input {
+    width: 100%;
+    background: #111827;
+    border: 1.5px solid #2d3748;
+    border-radius: 30px;
+    padding: 0.6rem 2.4rem 0.6rem 2.4rem;
+    font-size: 0.85rem;
+    color: #eef2ff;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.provider-search-input:focus {
+    border-color: #6366f1;
+}
+.provider-search-input::placeholder { color: #4b5563; }
+.provider-search-clear {
+    position: absolute;
+    right: 0.85rem;
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+.provider-search-clear:hover { color: #eef2ff; }
 
 .package-title {
     font-size: 1.3rem;

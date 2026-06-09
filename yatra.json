@@ -171,7 +171,9 @@
           "lat": 21.2514,
           "lng": 81.6296
         }
-      ]
+      ],
+      "provider_name": "Sample Tour and Travel",
+      "provider_code": "101"
     },
     {
       "id": 2,
@@ -344,7 +346,9 @@
           "lat": 21.909,
           "lng": 83.145
         }
-      ]
+      ],
+      "provider_name": "Sample Tour and Travel",
+      "provider_code": "101"
     },
     {
       "id": 3,
@@ -514,7 +518,9 @@
           "lat": 28.6139,
           "lng": 77.209
         }
-      ]
+      ],
+      "provider_name": "Sample Tour and Travel",
+      "provider_code": "101"
     },
     {
       "id": 4,
@@ -685,7 +691,9 @@
           "lat": 28.6139,
           "lng": 77.209
         }
-      ]
+      ],
+      "provider_name": "Sample Tour and Travel",
+      "provider_code": "101"
     },
     {
       "id": 5,
@@ -864,7 +872,9 @@
           "lat": 28.6139,
           "lng": 77.209
         }
-      ]
+      ],
+      "provider_name": "Sample Tour and Travel",
+      "provider_code": "102"
     },
     {
       "id": 6,
@@ -1018,7 +1028,9 @@
           "lat": 28.6139,
           "lng": 77.209
         }
-      ]
+      ],
+      "provider_name": "Sample Tour and Travel",
+      "provider_code": "102"
     },
     {
       "id": 7,
@@ -1183,7 +1195,9 @@
           "lat": 13.0827,
           "lng": 80.2707
         }
-      ]
+      ],
+      "provider_name": "Sample Tour and Travel",
+      "provider_code": "102"
     },
     {
       "id": 8,
@@ -1352,7 +1366,9 @@
           "lat": 28.6139,
           "lng": 77.209
         }
-      ]
+      ],
+      "provider_name": "Sample Tour and Travel",
+      "provider_code": "102"
     }
   ]
 }
