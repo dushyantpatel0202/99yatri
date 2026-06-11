@@ -9,6 +9,7 @@
       "category_display": "Road Trip",
       "duration": "6 Days",
       "price": 16000,
+      "discount": 1000,
       "currency": "₹",
       "image": "https://res.cloudinary.com/dlyzup9qp/image/upload/w_500,h_200,c_fill,q_auto,f_auto/v1779444261/photo-1519046904884-53103b34b206_xfdtow.jpg",
       "highlights": [
@@ -177,13 +178,14 @@
     },
     {
       "id": 2,
-      "dates": "4 June – 10 June",
+      "dates": "20 June – 1 July",
       "title": "Char Dham Yatra",
       "location": "Uttarakhand",
       "category": "tirth_yatra",
       "category_display": "Tirth Yatra",
       "duration": "12 Days",
       "price": 35000,
+      "discount": 2000,
       "currency": "₹",
       "image": "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=500&h=200&fit=crop",
       "highlights": [
@@ -352,7 +354,8 @@
     },
     {
       "id": 3,
-      "dates": "4 June – 10 June",
+      "dates": "Every Weekend",
+      "recurring": "Every Weekend",
       "title": "Kashmir Honeymoon Special",
       "location": "Srinagar, Gulmarg, Pahalgam",
       "category": "honeymoon",
@@ -524,7 +527,7 @@
     },
     {
       "id": 4,
-      "dates": "4 June – 10 June",
+      "dates": "15 June – 20 June",
       "title": "Valley of Flowers Trek",
       "location": "Uttarakhand",
       "category": "trekking",
@@ -697,7 +700,8 @@
     },
     {
       "id": 5,
-      "dates": "4 June – 10 June",
+      "dates": "Each Month",
+      "recurring": "Each Month",
       "title": "Rajasthan Heritage Tour",
       "location": "Jaipur, Jodhpur, Udaipur",
       "category": "regional",
@@ -878,13 +882,14 @@
     },
     {
       "id": 6,
-      "dates": "4 June – 10 June",
+      "dates": "1 June – 3 June",
       "title": "Jim Corbett Wildlife Safari",
       "location": "Nainital, Uttarakhand",
       "category": "wildlife",
       "category_display": "Wildlife",
       "duration": "3 Days",
       "price": 8500,
+      "discount": 500,
       "currency": "₹",
       "image": "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=500&h=200&fit=crop",
       "highlights": [
@@ -1034,7 +1039,7 @@
     },
     {
       "id": 7,
-      "dates": "4 June – 10 June",
+      "dates": "25 June – 29 June",
       "title": "Andaman Beach & Honeymoon",
       "location": "Port Blair, Havelock",
       "category": "honeymoon",
@@ -1201,7 +1206,8 @@
     },
     {
       "id": 8,
-      "dates": "4 June – 10 June",
+      "dates": "Every Saturday",
+      "recurring": "Every Saturday",
       "title": "Rishikesh Adventure & Yoga",
       "location": "Rishikesh, Uttarakhand",
       "category": "trekking",

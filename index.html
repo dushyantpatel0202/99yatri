@@ -70,6 +70,26 @@
 		</div>
 	</div>
 
+	<!-- ══ CUSTOMIZE PACKAGE INQUIRY MODAL ══ -->
+	<div class="customize-modal-backdrop" id="customizeModalBackdrop">
+		<div class="customize-modal" id="customizeModal">
+			<button class="customize-modal-close" id="customizeModalClose" aria-label="Close">✕</button>
+			<div class="customize-modal-icon" id="customizeModalIcon"><i class="fas fa-sliders-h"></i></div>
+			<h2 class="customize-modal-title" id="customizeModalTitle">Customize Your Package</h2>
+			<p class="customize-modal-sub" id="customizeModalSub">Tell us your requirements and we'll plan it for you!</p>
+			<input class="cust-input" id="custName" type="text" placeholder="Your Full Name *" autocomplete="name" />
+			<input class="cust-input" id="custPhone" type="tel" placeholder="Phone Number *" autocomplete="tel" />
+			<input class="cust-input" id="custDestination" type="text" placeholder="Destination / Place" />
+			<input class="cust-input" id="custDates" type="text" placeholder="Travel Dates (e.g. 20 June – 25 June)" />
+			<input class="cust-input" id="custTravelers" type="number" placeholder="No. of Travelers" min="1" />
+			<input class="cust-input" id="custBudget" type="text" placeholder="Budget per person (e.g. ₹15,000)" />
+			<textarea class="cust-input cust-textarea" id="custRequirements" placeholder="Special Requirements / Notes" rows="3"></textarea>
+			<button class="cust-submit-btn" id="customizeSubmitBtn">
+				<i class="fab fa-whatsapp"></i> Send Enquiry on WhatsApp
+			</button>
+		</div>
+	</div>
+
 	<!-- ══ YATRA OVERLAY (Full Dynamic App) ══ -->
 	<div class="tracker-overlay yatra-overlay-dark" id="yatraOverlay">
 		<div class="yatra-app-inner">
@@ -88,6 +108,23 @@
 					</div>
 				</header>
 				<nav class="category-filter" id="categoryFilter" aria-label="Filter by category"></nav>
+				<!-- Customize Package Toggle -->
+				<div class="customize-toggle-wrap">
+					<button class="customize-toggle-btn" id="customizeToggleBtn">
+						<i class="fas fa-sliders-h"></i> Customize Package <i class="fas fa-chevron-down cust-chevron" id="custChevron"></i>
+					</button>
+				</div>
+				<div class="customize-btns-bar" id="customizeBtnsBar">
+					<button class="customize-pkg-btn" data-type="group" id="custBtnGroup">
+						<i class="fas fa-users"></i> Customize Group Package
+					</button>
+					<button class="customize-pkg-btn" data-type="domestic" id="custBtnDomestic">
+						<i class="fas fa-flag"></i> Customize Domestic Package
+					</button>
+					<button class="customize-pkg-btn" data-type="international" id="custBtnInternational">
+						<i class="fas fa-globe"></i> Customize International Package
+					</button>
+				</div>
 				<div class="provider-search-wrap">
 					<i class="fas fa-search provider-search-icon"></i>
 					<input type="text" id="providerSearchInput" class="provider-search-input" placeholder="Search provider: type 101, 102 or 'Sample Tour and Travel'…" autocomplete="off" />

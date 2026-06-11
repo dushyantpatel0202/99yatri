@@ -3246,6 +3246,37 @@ function yatraFormatPrice(price, currency) {
     return `${currency}${price.toLocaleString('en-IN')}`;
 }
 
+/* ── Date status helper: returns 'live', 'expired', or 'recurring' ── */
+function yatraGetDateStatus(pkg) {
+    if (pkg.recurring) return { type: 'recurring', label: pkg.recurring };
+    if (!pkg.dates) return null;
+
+    var MONTHS = { January:0, February:1, March:2, April:3, May:4, June:5,
+                   July:6, August:7, September:8, October:9, November:10, December:11 };
+
+    // Expect "D Month – D Month"; grab the part after the dash
+    var sep = pkg.dates.indexOf('\u2013');
+    if (sep === -1) sep = pkg.dates.indexOf('-');
+    if (sep === -1) return null;
+
+    var endPart = pkg.dates.slice(sep + 1).trim();
+    var tokens  = endPart.split(/\s+/).filter(Boolean);
+    var endDay, endMonthIdx;
+
+    if (!isNaN(tokens[0])) {              // "10 June"
+        endDay      = parseInt(tokens[0]);
+        endMonthIdx = MONTHS[tokens[1]];
+    } else {                               // "June 10"
+        endMonthIdx = MONTHS[tokens[0]];
+        endDay      = parseInt(tokens[1]);
+    }
+    if (isNaN(endDay) || endMonthIdx === undefined) return null;
+
+    var now     = new Date();
+    var endDate = new Date(now.getFullYear(), endMonthIdx, endDay, 23, 59, 59);
+    return now > endDate ? { type: 'expired' } : { type: 'live' };
+}
+
 /* ── Yatra Detail Modal open / close ── */
 function openYatraDetail(pkg) {
     yatraPopulateModal(pkg);
@@ -3454,6 +3485,20 @@ function yatraRenderFilters(packages, activeCategory) {
         btn.addEventListener('click', function() {
             yatraRenderFilters(packages, btn.dataset.category);
             yatraRenderCards(packages, btn.dataset.category);
+            // Scroll to first card and flash it so user sees the change
+            var grid = document.getElementById('packagesGrid');
+            if (grid) {
+                var firstCard = grid.querySelector('.package-card');
+                if (firstCard) {
+                    firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    firstCard.classList.remove('card-first-flash');
+                    void firstCard.offsetWidth; // force reflow
+                    firstCard.classList.add('card-first-flash');
+                    firstCard.addEventListener('animationend', function() {
+                        firstCard.classList.remove('card-first-flash');
+                    }, { once: true });
+                }
+            }
         });
     });
 }
@@ -3523,11 +3568,34 @@ function yatraRenderCards(packages, category, userLoc) {
         var cardShareBtn = pkg.provider_code
             ? `<button class="card-share-btn" data-provider-code="${pkg.provider_code}" data-provider-name="${(pkg.provider_name||'').replace(/"/g,'&quot;')}" title="Share ${pkg.provider_name||''} link"><i class="fas fa-share-alt"></i></button>`
             : '';
+        var discountedPrice = (pkg.discount && pkg.discount > 0)
+            ? pkg.price - pkg.discount
+            : null;
+        var priceBadgeHtml = discountedPrice !== null
+            ? `<span class="price-badge has-discount">
+                <span class="price-main">${yatraFormatPrice(pkg.price, pkg.currency)}</span>
+                <span class="price-coupon"><i class="fas fa-tag"></i> With coupon: ${yatraFormatPrice(discountedPrice, pkg.currency)}</span>
+               </span>`
+            : `<span class="price-badge">${yatraFormatPrice(pkg.price, pkg.currency)}</span>`;
+
+        var dateStatus = yatraGetDateStatus(pkg);
+        var statusBadge = '';
+        if (dateStatus) {
+            if (dateStatus.type === 'live') {
+                statusBadge = `<span class="status-badge status-live"><span class="live-dot"></span> LIVE</span>`;
+            } else if (dateStatus.type === 'expired') {
+                statusBadge = `<span class="status-badge status-expired"><i class="fas fa-clock"></i> EXPIRED</span>`;
+            } else if (dateStatus.type === 'recurring') {
+                statusBadge = `<span class="status-badge status-recurring"><i class="fas fa-sync-alt"></i> ${dateStatus.label}</span>`;
+            }
+        }
+
         return `<div class="package-card">
             <div class="card-image" style="background-image:url('${pkg.image}')">
                 <span class="category-badge">${pkg.category_display}</span>
+                ${statusBadge}
                 ${cardShareBtn}
-                <span class="price-badge">${yatraFormatPrice(pkg.price, pkg.currency)}</span>
+                ${priceBadgeHtml}
             </div>
             <div class="card-content">
                 ${providerBadge}
@@ -4030,4 +4098,123 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     };
+})();
+
+/* ══ Customize Package Inquiry Modal ══ */
+(function () {
+    var _custType = '';
+
+    /* Toggle bar open/close */
+    var toggleBtn = document.getElementById('customizeToggleBtn');
+    var btnsBar   = document.getElementById('customizeBtnsBar');
+
+    if (toggleBtn && btnsBar) {
+        toggleBtn.addEventListener('click', function () {
+            var isOpen = btnsBar.classList.toggle('open');
+            toggleBtn.classList.toggle('open', isOpen);
+        });
+    }
+
+    var backdrop  = document.getElementById('customizeModalBackdrop');
+    var closeBtn  = document.getElementById('customizeModalClose');
+    var submitBtn = document.getElementById('customizeSubmitBtn');
+    var iconEl    = document.getElementById('customizeModalIcon');
+    var titleEl   = document.getElementById('customizeModalTitle');
+    var subEl     = document.getElementById('customizeModalSub');
+
+    var typeConfig = {
+        group: {
+            title: '👥 Customize Group Package',
+            sub:   'Plan an epic group trip! Share your details below.',
+            iconClass: 'icon-group',
+            icon:  'fas fa-users'
+        },
+        domestic: {
+            title: '🏔️ Customize Domestic Package',
+            sub:   'Explore India your way! Share your travel preferences.',
+            iconClass: 'icon-domestic',
+            icon:  'fas fa-flag'
+        },
+        international: {
+            title: '✈️ Customize International Package',
+            sub:   'Dream destination awaits! Let us craft your perfect trip.',
+            iconClass: 'icon-international',
+            icon:  'fas fa-globe'
+        }
+    };
+
+    function openCustomizeModal(type) {
+        _custType = type;
+        var cfg = typeConfig[type] || { title: 'Customize Package', sub: '', iconClass: '', icon: 'fas fa-sliders-h' };
+        if (titleEl) titleEl.textContent = cfg.title;
+        if (subEl)   subEl.textContent   = cfg.sub;
+        if (iconEl) {
+            iconEl.className = 'customize-modal-icon ' + cfg.iconClass;
+            iconEl.innerHTML = '<i class="' + cfg.icon + '"></i>';
+        }
+        ['custName','custPhone','custDestination','custDates','custTravelers','custBudget','custRequirements'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        if (backdrop) backdrop.classList.add('open');
+        var nameEl = document.getElementById('custName');
+        if (nameEl) setTimeout(function() { nameEl.focus(); }, 80);
+    }
+
+    function closeCustomizeModal() {
+        if (backdrop) backdrop.classList.remove('open');
+    }
+
+    /* Wire the 3 buttons */
+    ['custBtnGroup','custBtnDomestic','custBtnInternational'].forEach(function(btnId) {
+        var btn = document.getElementById(btnId);
+        if (btn) btn.addEventListener('click', function() { openCustomizeModal(btn.dataset.type); });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeCustomizeModal);
+    if (backdrop) backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) closeCustomizeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && backdrop && backdrop.classList.contains('open')) closeCustomizeModal();
+    });
+
+    if (submitBtn) submitBtn.addEventListener('click', function() {
+        var name    = (document.getElementById('custName').value || '').trim();
+        var phone   = (document.getElementById('custPhone').value || '').trim();
+        var dest    = (document.getElementById('custDestination').value || '').trim();
+        var dates   = (document.getElementById('custDates').value || '').trim();
+        var travelers = (document.getElementById('custTravelers').value || '').trim();
+        var budget  = (document.getElementById('custBudget').value || '').trim();
+        var notes   = (document.getElementById('custRequirements').value || '').trim();
+
+        var valid = true;
+        ['custName','custPhone'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el && !el.value.trim()) {
+                el.classList.add('shake');
+                el.focus();
+                setTimeout(function() { el.classList.remove('shake'); }, 800);
+                valid = false;
+            }
+        });
+        if (!valid) return;
+
+        var typeLabels = { group: 'Group Package', domestic: 'Domestic Package', international: 'International Package' };
+        var label = typeLabels[_custType] || 'Custom Package';
+
+        var msg = '\uD83C\uDF0D *Customize ' + label + ' Enquiry*\n\n'
+            + '\uD83D\uDC64 Name: ' + name + '\n'
+            + '\uD83D\uDCDE Phone: ' + phone + '\n'
+            + (dest      ? '\uD83D\uDCCD Destination: ' + dest + '\n'  : '')
+            + (dates     ? '\uD83D\uDCC5 Dates: '       + dates + '\n' : '')
+            + (travelers ? '\uD83D\uDC65 Travelers: '   + travelers + '\n' : '')
+            + (budget    ? '\uD83D\uDCB0 Budget: '      + budget + '\n' : '')
+            + (notes     ? '\uD83D\uDCDD Notes: '       + notes + '\n' : '')
+            + '\n_Sent via HiFi-Yatri_';
+
+        var waUrl = 'https://wa.me/917734906606?text=' + encodeURIComponent(msg);
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
+        closeCustomizeModal();
+    });
 })();
